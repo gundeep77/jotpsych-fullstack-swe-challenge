@@ -3,6 +3,7 @@ import React, { useState } from "react";
 function Register() {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [motto, setMotto] = useState<string>("");
   const [message, setMessage] = useState<string>("");
 
   const handleRegister = async (e: React.FormEvent) => {
@@ -12,7 +13,8 @@ function Register() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ username, password }),
+      body: JSON.stringify({ username, password, motto }),
+      credentials: "include",
     });
     const data = await response.json();
     setMessage(data.message);
@@ -36,6 +38,14 @@ function Register() {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+        <div>
+          <label>Motto:</label>
+          <input
+            type="text"
+            value={motto}
+            onChange={(e) => setMotto(e.target.value)}
           />
         </div>
         <button type="submit">Register</button>

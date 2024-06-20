@@ -28,19 +28,22 @@ class APIService {
 
     if (auth) {
       // get access token somehow
-      if (token) {
+      const token = document.cookie.split("; ").find(row=> row.startsWith("token="))?.split("=")[1];
+      if(token){
         headers["Authorization"] = `Bearer ${token}`;
       }
+    
     }
 
     const response = await fetch(`${this.baseUrl}${endpoint}`, {
       method,
       headers,
       body: body ? JSON.stringify(body) : null,
+      credentials: "include",
     });
 
     if (!response.ok) {
-      throw new Error("Network response was not ok");
+      throw new Error(response.statusText);
     }
 
     return response.json();
